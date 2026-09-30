@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import IntroScreen from './components/IntroScreen';
@@ -44,7 +44,7 @@ function PortfolioPage() {
 
         <Navbar visible={introComplete} />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
           <Hero visible={introComplete} />
 
           <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent my-8" />

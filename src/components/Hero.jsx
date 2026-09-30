@@ -4,17 +4,6 @@ import { ArrowRight, Download } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
 import { profile } from '../data/profile';
 
-const RevealLine = ({ children, delay = 0, className = '' }) => (
-  <motion.span
-    className={`block ${className}`}
-    initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
-    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-    transition={{ duration: 0.65, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-  >
-    {children}
-  </motion.span>
-);
-
 const Hero = ({ visible = true }) => {
   const shouldReduce = useReducedMotion();
   const sectionRef = useRef(null);
@@ -31,37 +20,45 @@ const Hero = ({ visible = true }) => {
   const headingOpacity = useTransform(scrollYProgress, [0, 0.6], [1, shouldReduce ? 1 : 0.65]);
 
   const baseDelay = visible ? 0 : 999;
+  const revealDelay = (delay) => (shouldReduce ? 0 : baseDelay + delay);
 
   return (
-    <section id="home" ref={sectionRef} className="min-h-[90vh] flex items-center relative pt-8">
+    <section id="home" ref={sectionRef} className="min-h-[100svh] flex items-center relative pt-20 pb-12">
       <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
-        <motion.div style={{ y: headingY, scale: headingScale, opacity: headingOpacity }} className="space-y-7 relative z-10">
-          <RevealLine delay={baseDelay + 0.1} className="text-sm font-mono text-gray-400 tracking-[0.28em] uppercase">
-            <span className="text-primary">VAIBHAV</span> PANDEY
-          </RevealLine>
-
+        <motion.div style={{ y: headingY, scale: headingScale, opacity: headingOpacity }} className="relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: baseDelay + 0.2 }}
+            transition={{ duration: 0.5, delay: revealDelay(0.1) }}
             className="inline-flex items-center gap-3 bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 rounded-full text-sm font-medium"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span>{profile.title}</span>
           </motion.div>
 
-          <h1 className="text-5xl lg:text-[4.25rem] xl:text-[5.5rem] font-display font-bold leading-[0.94] text-white tracking-[-0.06em]">
-            <RevealLine delay={baseDelay + 0.35} className="text-white">VAIBHAV</RevealLine>
-            <RevealLine delay={baseDelay + 0.45} className="text-white">PANDEY</RevealLine>
-            <RevealLine delay={baseDelay + 0.55} className="mt-4 text-lg sm:text-xl font-mono uppercase tracking-[0.32em] text-gray-400">
-              {profile.tagline}
-            </RevealLine>
+          <h1 className="mt-10 mb-7 font-display text-[clamp(4.5rem,7vw,8rem)] font-bold leading-[0.9] tracking-[-0.05em] text-white">
+            <motion.span
+              initial={{ opacity: 0, y: 50, filter: 'blur(8px)' }}
+              animate={visible ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+              transition={{ duration: 0.8, delay: revealDelay(0.3), ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="block"
+            >
+              VAIBHAV
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, y: 50, filter: 'blur(8px)' }}
+              animate={visible ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+              transition={{ duration: 0.8, delay: revealDelay(0.45), ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="block"
+            >
+              PANDEY<span className="text-primary">.</span>
+            </motion.span>
           </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: baseDelay + 0.8 }}
+            transition={{ duration: 0.6, delay: revealDelay(0.85) }}
             className="text-lg text-gray-400 max-w-xl leading-relaxed"
           >
             {profile.bio[0]}
@@ -70,8 +67,8 @@ const Hero = ({ visible = true }) => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: baseDelay + 0.95 }}
-            className="flex flex-wrap items-center gap-4 pt-2"
+            transition={{ duration: 0.5, delay: revealDelay(1.05) }}
+            className="flex flex-wrap items-center gap-4 pt-7"
           >
             <a
               href="#projects"
@@ -97,8 +94,8 @@ const Hero = ({ visible = true }) => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={visible ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: baseDelay + 1.1 }}
-            className="flex items-center gap-6 pt-5 text-gray-500"
+            transition={{ duration: 0.5, delay: revealDelay(1.2) }}
+            className="flex items-center gap-6 pt-6 text-gray-500"
           >
             <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="GitHub profile">
               <Github size={22} />
@@ -116,7 +113,7 @@ const Hero = ({ visible = true }) => {
           style={{ y: visualY, opacity: visualOpacity }}
           initial={{ opacity: 0, scale: 0.92 }}
           animate={visible ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.9, delay: baseDelay + 0.6, ease: 'easeOut' }}
+          transition={{ duration: 0.9, delay: revealDelay(0.6), ease: 'easeOut' }}
           className="relative hidden lg:block h-[520px]"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary/25 to-accent/20 rounded-3xl blur-3xl opacity-40" />
